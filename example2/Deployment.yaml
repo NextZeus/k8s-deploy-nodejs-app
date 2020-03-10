@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloexpress-deployment
+  labels:
+    app: helloexpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helloexpress
+  template:
+    metadata:
+      labels:
+        app: helloexpress
+    spec:
+      containers:
+        - name: helloexpress
+          image: nextzeus/helloexpress:latest
+          ports:
+            - name: http
+              containerPort: 3000

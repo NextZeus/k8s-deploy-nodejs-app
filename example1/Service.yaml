@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloexpress
+spec:
+  type: LoadBalancer
+  selector:
+    app: helloexpress
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3000 # => Deployment containerPort
