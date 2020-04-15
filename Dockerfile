@@ -1,9 +1,15 @@
-FROM node:12.0-slim
+FROM node:alpine3.11 as build
+
+WORKDIR /app
 
 COPY . .
 
 RUN npm install
 
-CMD ["npm", "start"]
+FROM node:alpine3.11
+
+COPY --from=build /app /
 
 EXPOSE 3000
+
+CMD ["npm", "start"]

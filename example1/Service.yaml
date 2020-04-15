@@ -5,7 +5,7 @@ metadata:
 spec:
   type: LoadBalancer
   selector:
-    app: helloexpress
+    app: helloexpress #作用于所有app=helloexpress的Pod
   ports:
     - name: http
       port: 80
