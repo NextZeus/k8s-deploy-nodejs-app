@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: helloexpress
+  namespace: test-express
 spec:
   type: LoadBalancer
   selector:
@@ -10,3 +11,17 @@ spec:
     - name: http
       port: 80
       targetPort: 3000 # => Deployment containerPort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: helloexpress1
+  namespace: test-express
+spec:
+  type: LoadBalancer
+  selector:
+    app: helloexpress1 #作用于所有app=helloexpress的Pod
+  ports:
+    - name: http
+      port: 80
+      targetPort: 3001 # => Deployment containerPort
