@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: helloexpress-deployment
+  labels:
+    app: helloexpress
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: helloexpress
+  template:
+    metadata:
+      labels:
+        app: helloexpress
+    spec:
+      containers:
+        - image: keymetrics/pm2:latest-alpine
+          name: helloexpress
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 3000
+          env:
+            - name: REDIS_CONNECTION_STRING
+              value: "localhost:6379"
+          volumeMounts: # Pod container dir
+            - mountPath: /data/code
+              name: code-volume
+            - mountPath: /data/logs
+              name: logs-volume
+          workingDir: /data/code # container dir
+          command: ["/bin/sh", "-c", "pwd && ls -l"]
+      volumes: # 宿主机上的目录
+        - name: code-volume
+          hostPath: 
+              # directory location on host
+              path: /Users/xiaodong/Documents/GitHub/k8s-deploy-nodejs-app
+        - name: logs-volume
+          hostPath:
+              path: /data/logs/k8s
+              type: DirectoryOrCreate
+        # - name: redis-persistent-storage
+        # nfs:
+        #   path: /k8s-nfs/redis/data
+        #   server: 192.168.8.150

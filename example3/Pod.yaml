@@ -1,0 +1,47 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: myapp
+  labels:
+    name: myapp
+spec:
+  containers:
+    - name: myapp
+      image: keymetrics/pm2:latest-alpine
+      imagePullPolicy: IfNotPresent
+      resources:
+        limits:
+          memory: "1024Mi"
+          cpu: "500m"
+      ports:
+        - containerPort: 3000
+          name: http
+      # env:
+      #   - name: REDIS_CONNECTION_STRING
+      #     value: ""
+      volumeMounts: # node container dir -> Pod host dir
+        - mountPath: /data/code
+          name: code-volume
+        - mountPath: /data/logs
+          name: logs-volume
+      workingDir: /data/code
+      command: ["/bin/sh", "-c", "pwd && ls -l"]
+  initContainers:
+    - name: copy-code
+      image: busybox
+      imagePullPolicy: IfNotPresent
+      command: ["sh","-c","cp", "-r", "/Users/xiaodong/Documents/GitHub/k8s-deploy-nodejs-app", "/data/code"]
+  restartPolicy: Never
+  volumes: # Pod上的目录
+    - name: code-volume
+      hostPath:
+        # directory location on host
+        path: /data/code
+    - name: logs-volume
+      hostPath:
+        path: /data/logs/k8s
+        type: DirectoryOrCreate
+    # - name: redis-persistent-storage
+    # nfs:
+    #   path: /k8s-nfs/redis/data
+    #   server: 192.168.8.150
