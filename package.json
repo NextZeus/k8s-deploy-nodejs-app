@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "pm2-runtime start ecosystem.config.js --only API"
+    "start": "npm install && pm2-runtime start ecosystem.config.js --only API"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",
