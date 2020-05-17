@@ -9,7 +9,3 @@ RUN npm install
 FROM node:alpine3.11
 
 COPY --from=build /app /
-
-EXPOSE 3000
-
-CMD ["npm", "start"]

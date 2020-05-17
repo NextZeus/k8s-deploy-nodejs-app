@@ -30,7 +30,7 @@ spec:
     - name: copy-code
       image: busybox
       imagePullPolicy: IfNotPresent
-      command: ["sh","-c","cp", "-r", "/Users/xiaodong/Documents/GitHub/k8s-deploy-nodejs-app", "/data/code"]
+      command: ["sh","-c","git", "clone", "https://github.com/NextZeus/k8s-deploy-nodejs-app.git", "/data/code"]
   restartPolicy: Never
   volumes: # Pod上的目录
     - name: code-volume
