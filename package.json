@@ -1,9 +1,9 @@
 {
-  "name": "helloexpress",
+  "name": "myapp",
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npm install && pm2-runtime start ecosystem.config.js --only API"
+    "start": "npm install && pm2-runtime start ecosystem.config.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",

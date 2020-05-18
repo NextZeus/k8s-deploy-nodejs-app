@@ -25,18 +25,14 @@ spec:
         - mountPath: /data/logs
           name: logs-volume
       workingDir: /data/code
-      command: ["/bin/sh", "-c", "pwd && ls -l"]
-  initContainers:
-    - name: copy-code
-      image: busybox
-      imagePullPolicy: IfNotPresent
-      command: ["sh","-c","git", "clone", "https://github.com/NextZeus/k8s-deploy-nodejs-app.git", "/data/code"]
+      command: ["/bin/sh", "-c", "pwd && ls -la && npm install && npm run start"]
   restartPolicy: Never
   volumes: # Pod上的目录
     - name: code-volume
-      hostPath:
-        # directory location on host
-        path: /data/code
+      gitRepo:
+          repository: https://github.com/NextZeus/k8s-deploy-nodejs-app.git
+          revision: master
+          directory: .
     - name: logs-volume
       hostPath:
         path: /data/logs/k8s
