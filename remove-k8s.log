@@ -1,0 +1,36 @@
+root@nextzeus /h/node# ip addr show wlp0s20f0u2|grep -Po 'inet \K[\d.]+'
+192.168.3.14
+
+swapoff -a
+
+kubeadm init --config kubeadm.yaml
+
+systemctl enable kubelet && systemctl start kubelet
+
+
+# 删除k8s数据
+
+
+root@nextzeus /h/n/initk8scluster [1]# swapoff -a
+root@nextzeus /h/n/initk8scluster# rm -rf /etc/kubernetes/
+root@nextzeus /h/n/initk8scluster# rm -rf /var/lib/etcd/
+root@nextzeus /h/n/initk8scluster# systemctl stop kubelet
+root@nextzeus /h/n/initk8scluster# kubeadm init --config kubeadm.conf
+W0511 22:16:35.279371   15203 strict.go:54] error unmarshaling configuration schema.GroupVersionKind{Group:"kubeproxy.config.k8s.io", Version:"v1alpha1", Kind:"KubeProxyConfiguration"}: error unmarshaling JSON: while decoding JSON: json: unknown field "SupportIPVSProxyMode"
+W0511 22:16:35.279723   15203 configset.go:202] WARNING: kubeadm cannot validate component configs for API groups [kubelet.config.k8s.io kubeproxy.config.k8s.io]
+[init] Using Kubernetes version: v1.18.0
+[preflight] Running pre-flight checks
+error execution phase preflight: [preflight] Some fatal errors occurred:
+	[ERROR Port-6443]: Port 6443 is in use
+	[ERROR Port-10259]: Port 10259 is in use
+	[ERROR Port-10257]: Port 10257 is in use
+[preflight] If you know what you are doing, you can make a check non-fatal with `--ignore-preflight-errors=...`
+To see the stack trace of this error execute with --v=5 or higher
+root@nextzeus /h/n/initk8scluster [1]# netstat -tlnp|grep kube
+tcp        0      0 0.0.0.0:6443            0.0.0.0:*               LISTEN      10838/kube-apiserve 
+root@nextzeus /h/n/initk8scluster# kill -9 10838
+root@nextzeus /h/n/initk8scluster# kill -9 10838
+kill: 向 10838 发送信号失败: 没有那个进程
+root@nextzeus /h/n/initk8scluster [1]# netstat -tlnp|grep kube
+root@nextzeus /h/n/initk8scluster [0|1]# kubeadm init --config kubeadm.conf
+
