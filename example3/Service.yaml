@@ -2,13 +2,11 @@ apiVersion: v1
 kind: Service
 metadata:
   name: myapp
-  labels:
-    name: myapp
 spec:
-  type: NodePort # Minikube 只能通过 NodePort 公开服务
+  type: ClusterIP
   selector:
-    app: myapp #作用于所有app=helloexpress的Pod
+    app: myapp
   ports:
-    - nodePort: 30001 # 30000-32767 range :curl -v http://$(minikube ip):30001/ping
-      port: 3000 # cluster inner
-      targetPort: 3000 # container port
+    - name: http
+      port: 80
+      targetPort: 3000 # => Deployment containerPort
