@@ -1,3 +1,5 @@
+```shell
+
 bash-4.4# curl -L https://istio.io/downloadIstio | ISTIO_VERSION=1.5.1 sh -
 bash-4.4# cd istio-1.5.1/
 bash-4.4# export PATH=$PWD/bin:$PATH
@@ -46,3 +48,5 @@ serviceroles.rbac.istio.io                 2020-05-26T15:06:36Z
 sidecars.networking.istio.io               2020-05-26T15:06:36Z
 templates.config.istio.io                  2020-05-26T15:06:36Z
 virtualservices.networking.istio.io        2020-05-26T15:06:36Z
+
+```
