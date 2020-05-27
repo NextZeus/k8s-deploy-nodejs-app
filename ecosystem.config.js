@@ -7,7 +7,7 @@ module.exports = {
       autorestart: false,
       watch: false,
       max_memory_restart: '1G',
-      "exec_mode": "fork",
+      "exec_mode": "cluster",
       "log_date_format": "YYYY-MM-DD HH:mm:ss",
       "combine_logs": true,
       error_file: '/data/logs/server-api-1-error.log',
