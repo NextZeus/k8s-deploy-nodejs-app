@@ -40,6 +40,6 @@ app.use(function(err, req, res, next) {
 
 app.listen(process.env.PORT);
 
-console.log('app listening on ', process.env.PORT, process.env.PORT1);
+console.log('app listening on ', process.env.PORT, process.env.ServicePort);
 
 module.exports = app;
