@@ -12,7 +12,7 @@ router.get('/json', async function(req, res, next) {
   console.log('req url ', url);
   try {
     let resp = await axios.get(url);
-    return res.json({ ServiceName: process.env.ServiceName, ServicePort: process.env.ServicePort, resp });
+    return res.json({ ServiceName: process.env.ServiceName, ServicePort: process.env.ServicePort, resp.data });
   } catch (e) {
     console.error('Error is: ',e);
     return res.json(url);
