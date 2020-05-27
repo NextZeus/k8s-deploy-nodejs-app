@@ -21,7 +21,7 @@ router.get('/json', async function(req, res, next) {
 });
 
 router.get('/json1', async function(req, res, next) {  
-    return res.json({name:process.env.name, ServiceName: process.env.ServiceName, ServicePort: process.env.ServicePort, data: resp.data });
+    return res.json({name:process.env.name, ServiceName: process.env.ServiceName, ServicePort: process.env.ServicePort });
 });
 
 module.exports = router;
