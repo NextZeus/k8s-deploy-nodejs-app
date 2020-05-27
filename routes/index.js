@@ -9,8 +9,14 @@ router.get('/', function(req, res, next) {
 
 router.get('/json', async function(req, res, next) {
   const url = 'http://' + process.env.ServiceName+ ':'+process.env.ServicePort+'/json';
-  let resp = await axios.get(url);
-  res.json({ ServiceName: process.env.ServiceName, ServicePort: process.env.ServicePort, resp });
+  console.log('req url ', url);
+  try {
+    let resp = await axios.get(url);
+    return res.json({ ServiceName: process.env.ServiceName, ServicePort: process.env.ServicePort, resp });
+  } catch (e) {
+    console.error('Error is: ',e);
+    return res.json(url);
+  }
 });
 
 module.exports = router;
