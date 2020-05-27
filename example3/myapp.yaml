@@ -47,51 +47,18 @@ spec:
             path: /data/logs/k8s
             type: DirectoryOrCreate
 ---
-apiVersion: apps/v1
-kind: Deployment
+apiVersion: v1
+kind: Service
 metadata:
-  name: myapp1
+  name: myapp
   labels:
-    app: myapp1
+    name: myapp
 spec:
+  type: LoadBalancer # makes the exposed Pods accessible from outside the cluster; default Service type ClusterIP
   selector:
-    matchLabels:
-      app: myapp1
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: myapp1
-    spec:
-      containers:
-        - name: myapp1
-          image: keymetrics/pm2:latest-alpine
-          imagePullPolicy: IfNotPresent
-          resources:
-            limits:
-              memory: "256Mi"
-              cpu: "200m"
-          ports:
-            - containerPort: 3000
-          env:
-            - name: ServiceName
-              value: 'myapp'
-            - name: ServicePort
-              value: '3000'
-          volumeMounts: # node container dir -> Pod host dir
-            - mountPath: /data/code
-              name: code-volume
-            - mountPath: /data/logs
-              name: logs-volume
-          workingDir: /data/code
-          command: ["/bin/sh", "-c", "pwd && ls -la && npm run start"]
-      volumes: # Pod上的目录
-        - name: code-volume
-          gitRepo:
-            repository: https://github.com/NextZeus/k8s-deploy-nodejs-app.git
-            revision: master
-            directory: .
-        - name: logs-volume
-          hostPath:
-            path: /data/logs/k8s
-            type: DirectoryOrCreate
+    app: myapp #作用于所有app=helloexpress的Pod
+  ports:
+    - name: http
+      # - nodePort: 30001 # 30000-32767 range :curl -v http://$(minikube ip):30001/ping
+      port: 3000 # cluster inner
+      targetPort: 3000 # container port

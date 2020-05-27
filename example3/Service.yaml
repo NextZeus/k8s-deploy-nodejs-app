@@ -5,10 +5,27 @@ metadata:
   labels:
     name: myapp
 spec:
-  type: NodePort # Minikube 只能通过 NodePort 公开服务
+  type: LoadBalancer # makes the exposed Pods accessible from outside the cluster; default Service type ClusterIP
   selector:
     app: myapp #作用于所有app=helloexpress的Pod
   ports:
-    - nodePort: 30001 # 30000-32767 range :curl -v http://$(minikube ip):30001/ping
+    - name: http
+      # - nodePort: 30001 # 30000-32767 range :curl -v http://$(minikube ip):30001/ping
       port: 3000 # cluster inner
+      targetPort: 3000 # container port
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp1
+  labels:
+    name: myapp1
+spec:
+  type: LoadBalancer # Minikube 只能通过 NodePort 公开服务
+  selector:
+    app: myapp1 #作用于所有app=helloexpress的Pod
+  ports:
+    - name: http
+    # - nodePort: 30002 # 30000-32767 range :curl -v http://$(minikube ip):30001/ping
+      port: 3001 # cluster inner
       targetPort: 3000 # container port
