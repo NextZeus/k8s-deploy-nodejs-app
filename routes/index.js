@@ -8,7 +8,7 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/json', async function(req, res, next) {
-  const url = 'http://' + process.env.ServiceName+ ':'+process.env.ServicePort+'/json';
+  const url = 'http://' + process.env.ServiceName+ ':'+process.env.ServicePort+'/json1';
   console.log('req url ', url);
   try {
     let resp = await axios.get(url);
@@ -18,6 +18,10 @@ router.get('/json', async function(req, res, next) {
     console.error('Error is: ',e);
     return res.json(url);
   }
+});
+
+router.get('/json1', async function(req, res, next) {  
+    return res.json({name:process.env.name, ServiceName: process.env.ServiceName, ServicePort: process.env.ServicePort, data: resp.data });
 });
 
 module.exports = router;
